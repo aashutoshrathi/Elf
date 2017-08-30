@@ -1,5 +1,3 @@
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-
 # Elf [![GitHub contributors](https://img.shields.io/github/contributors/aashutoshrathi/Elf.svg)](https://github.com/aashutoshrathi/Elf/graphs/contributors)
 OS Lab Mini Project
 
