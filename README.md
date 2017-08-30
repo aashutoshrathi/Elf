@@ -1,4 +1,4 @@
-# Elf [![GitHub contributors](https://img.shields.io/github/contributors/aashutoshrathi/Elf.svg)](https://github.com/aashutoshrathi/Elf/graphs/contributors)
+# Elf
 OS Lab Mini Project
 
 ### Instructions
