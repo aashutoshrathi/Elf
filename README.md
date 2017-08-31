@@ -23,7 +23,7 @@ git remote add upstream https://github.com/aashutoshrathi/Elf.git
 * You just need to implement function part in [Basic Structure](#bs) in a file named same as function.
 * Create a new branch using 
 ```md
-git branch -b "Branch-Name"
+git checkout -b "Branch-Name"
 ```
 
 * When completed push your work, and Send a Pull-Request.
