@@ -63,9 +63,7 @@ int main() {
 				}
 				cd(tok);
 			}
-		}
-
-		else if (hasPrefix(buffer, "rmdir") == 0) {
+		} else if (hasPrefix(buffer, "rmdir") == 0) {
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
@@ -76,9 +74,7 @@ int main() {
 				}
 				remove_directory(tok);
 			}
-		}
-
-		else if (hasPrefix(buffer, "mkdir") == 0) {
+		} else if (hasPrefix(buffer, "mkdir") == 0) {
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
@@ -105,12 +101,21 @@ int main() {
 			ls();
 		}
 
+		else if (hasPrefix(buffer, "sudo apt-get") == 0) {
+			printf("Install karega haan\n");
+		}
+
 		else if (hasPrefix(buffer, "sudo") == 0) {
 			printf("Itne Bade nahi hue abhi\n");
 		}
 
 		else if (hasPrefix(buffer, "exit") == 0) {
 			exit(0);
+		}
+		else 
+		{
+			buffer[strlen(buffer)-1] = buffer[strlen(buffer)];
+			printf("%s: Commnd not found\n", buffer);
 		}
 	}
 	return 0;
