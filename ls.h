@@ -67,14 +67,12 @@ int ls() {
 	int file_select();
 	if (getcwd(pathname, sizeof(pathname)) == 0 ) {
 	  printf("Error getting pathname");
-	  exit(0);
 	}
   
  	count = scandir(pathname, &files, file_select, alphasort);
   	
   	if (count <= 0) {         
 	 printf("No files in this directory");
-	 exit(0);
     }
     else {
     	int Max_FnLen=strlen(files[0]->d_name);
