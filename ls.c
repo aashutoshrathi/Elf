@@ -131,16 +131,14 @@ int check(const char *name)
 }    
 
 //Needs some correction    
-int check_ext(const char *name)     
-{
- char *extension, *n;
- n=strdup(name);
- extension=strtok(n,".");
- char i1[]="jpeg", i2[]="gif", i3[]="bmp", i4[]="tiff", i5[]="png", i6[]="jpg";
- char a1[]="a", a2[]="ar", a3[]="sbx", a4[]="cpio", a5[]="tar", a6[]="shar", a7[]="LBR", a8[]="iso", a9[]="lbr", a10[]="mar";
+int check_ext(const char *name) {
+  char *extension, *n;
+  n=strdup(name);
+  extension=strtok(n,".");
+  char i1[]="jpeg", i2[]="gif", i3[]="bmp", i4[]="tiff", i5[]="png", i6[]="jpg";
+  char a1[]="a", a2[]="ar", a3[]="sbx", a4[]="cpio", a5[]="tar", a6[]="shar", a7[]="LBR", a8[]="iso", a9[]="lbr", a10[]="mar";
   
- if(strncmp(extension,i1,4)==0 || strncmp(extension,i2,3)==0 || strncmp(extension,i3,3)==0 || strncmp(extension,i4,4)==0 || strncmp(extension,i5,3)==0 || strncmp(extension,i6,3)==0)
- {
+ if(strncmp(extension,i1,4)==0 || strncmp(extension,i2,3)==0 || strncmp(extension,i3,3)==0 || strncmp(extension,i4,4)==0 || strncmp(extension,i5,3)==0 || strncmp(extension,i6,3)==0) {
    return 1;
  }
  else if(strncmp(extension,a1,1)==0 || strncmp(extension,a2,2)==0 || strncmp(extension,a3,3)==0 || strncmp(extension,a4,4)==0 || strncmp(extension,a5,3)==0 || strncmp(extension,a6,4)==0 || strncmp(extension,a7,3)==0 || strncmp(extension,a8,3)==0 || strncmp(extension,a9,3)==0 || strncmp(extension,a10,3)==0)

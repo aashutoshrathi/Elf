@@ -1,7 +1,12 @@
 #include <stdio.h>
-#include <dirent.h>
-#include <fcntl.h>
+#include <dirent.h> // for readdir
+#include <fcntl.h> // 
 #include <ftw.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/unistd.h>
 
 int remove_directory(char *path) {
 	DIR *d = opendir(path);
@@ -11,7 +16,7 @@ int remove_directory(char *path) {
    	if (d) {
 		struct dirent *p;
 	  	r = 0;
-	  	while (!r && (p = readdir(d))) {
+	  	while (!r && (p = readdir(d))) { // readdir is defined in the header <dirent.h>, represents a directory stream.
 			int r2 = -1;
 		  	char *buf;
 		  	size_t len;
@@ -47,7 +52,7 @@ int remove_directory(char *path) {
    	return r;
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char *argv[]) {
 	char * dr = argv[1];
 	remove_directory(dr);
 	return 0;
