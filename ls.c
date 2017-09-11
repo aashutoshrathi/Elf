@@ -142,6 +142,7 @@ int check_ext(const char *name) {
    {
     return 0;
    }
+  extension++;
   char i1[]="jpeg", i2[]="gif", i3[]="bmp", i4[]="tiff", i5[]="png", i6[]="jpg";
   char a1[]="a", a2[]="ar", a3[]="sbx", a4[]="cpio", a5[]="tar", a6[]="shar", a7[]="LBR", a8[]="iso", a9[]="lbr", a10[]="mar";
   
