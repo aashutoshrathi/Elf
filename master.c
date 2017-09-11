@@ -1,9 +1,10 @@
+#define _GNU_SOURCE // to avoid "implicit declaration of function `asprintf'"
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <dirent.h> // for readdir
-#include <fcntl.h> // 
+#include <fcntl.h>
 #include <ftw.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -14,6 +15,7 @@
 #include "mkdir.h"
 #include "pwd.h"
 #include "remove_dir.h"
+#include "cd.h"
 	
 #define FALSE 0
 #define TRUE 1
@@ -30,42 +32,82 @@
 
 int remove_directory(char *r); // Declaration
 int pwd();
+int hasPrefix(char const *, char const *);
+
+int hasPrefix(char const *p, char const *q) {
+	int i = 0;
+	for(i = 0; q[i]; i++) {
+		if(p[i] != q[i])
+			return -1;
+	}
+	return 0;
+}
 
 int main() {
-	char arg[1024];
-	char args[1024];
-	while (strcmp(arg, "exit") != 0){
-		printf("myshell$ ");
-		gets(arg); // gets is not protected.
-		char *del = " ";
-		char *s = strtok(arg, del);
-		if(strcmp(s, "pwd") == 0) {
+	char buffer[BUFFERSIZE];
+	char *prompt = "myshell$ ";
+	char *tok;
+	tok = strtok (buffer, " ");
+	while(buffer != NULL){
+		bzero(buffer, BUFFERSIZE);
+		printf("%s", prompt);
+		fgets(buffer, BUFFERSIZE, stdin);
+		if (hasPrefix(buffer, "cd") == 0) {
+			tok = strchr(buffer, ' '); //use something more powerful
+			if (tok) {
+				char *tempTok = tok + 1;
+				tok = tempTok;
+				char *locationOfNewLine = strchr(tok, '\n');
+				if (locationOfNewLine) {
+					*locationOfNewLine = '\0';
+				}
+				cd(tok);
+			}
+		}
+
+		else if (hasPrefix(buffer, "rmdir") == 0) {
+			tok = strchr(buffer, ' '); //use something more powerful
+			if (tok) {
+				char *tempTok = tok + 1;
+				tok = tempTok;
+				char *locationOfNewLine = strchr(tok, '\n');
+				if (locationOfNewLine) {
+					*locationOfNewLine = '\0';
+				}
+				remove_directory(tok);
+			}
+		}
+
+		else if (hasPrefix(buffer, "mkdir") == 0) {
+			tok = strchr(buffer, ' '); //use something more powerful
+			if (tok) {
+				char *tempTok = tok + 1;
+				tok = tempTok;
+				char *locationOfNewLine = strchr(tok, '\n');
+				if (locationOfNewLine) {
+					*locationOfNewLine = '\0';
+				}
+				make_dir(tok);
+			}
+		}
+
+		else if (hasPrefix(buffer, "pwd") == 0) {
 			pwd();
 		}
-		else if(strcmp(s, "ls") == 0) {
-			ls();
-		}
-		else if(strcmp(s, "rmdir") == 0) {
-			remove_directory(args);
-		}
-		else if(strcmp(s, "mkdir") == 0) {
-			//make_dir();
-		}
-		else if(strcmp(s, "cd") == 0) {
-			//cd();
-		}
-		else if(strcmp(s, "cls") == 0) {
-			int i = 300;
+
+		else if (hasPrefix(buffer, "cls") == 0) {
+			int i=100;
 			while(i--)
 				printf("\n");
 		}
-		else if(strcmp(s, "exit") == 0) {
-			exit(0);
-		}
-		else {
-			printf("%s: Command not found\n",arg);
+
+		else if (hasPrefix(buffer, "ls") == 0) {
+			ls();
 		}
 
+		else if (hasPrefix(buffer, "exit") == 0) {
+			exit(0);
+		}
 	}
 	return 0;
 }

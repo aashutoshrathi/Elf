@@ -4,7 +4,7 @@ int remove_directory(char *path) {
 	int r = -1;
 
 	if (d) {
-		struct dirent *p;
+		const struct dirent *p;
 		r = 0;
 		while (!r && (p = readdir(d))) { // readdir is defined in the header <dirent.h>, represents a directory stream.
 			int r2 = -1;
