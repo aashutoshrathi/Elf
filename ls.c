@@ -50,6 +50,7 @@ main()   {
       
    for (i=1;i<count-1;i++)
    { 
+     
      if(files[i-1]->d_name[0]!='.')
      { //check for directory files    
      if(check(files[i-1]->d_name)==1)
@@ -136,7 +137,11 @@ int check(const char *name)
 int check_ext(const char *name) {
   char *extension, *n;
   n=strdup(name);
-  extension=strtok(n,".");
+  extension=strrchr(n,'.');
+  if (extension==NULL)
+   {
+    return 0;
+   }
   char i1[]="jpeg", i2[]="gif", i3[]="bmp", i4[]="tiff", i5[]="png", i6[]="jpg";
   char a1[]="a", a2[]="ar", a3[]="sbx", a4[]="cpio", a5[]="tar", a6[]="shar", a7[]="LBR", a8[]="iso", a9[]="lbr", a10[]="mar";
   
