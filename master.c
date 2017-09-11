@@ -105,6 +105,10 @@ int main() {
 			ls();
 		}
 
+		else if (hasPrefix(buffer, "sudo") == 0) {
+			printf("Itne Bade nahi hue abhi\n");
+		}
+
 		else if (hasPrefix(buffer, "exit") == 0) {
 			exit(0);
 		}

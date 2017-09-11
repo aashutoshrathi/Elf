@@ -76,47 +76,48 @@ int ls() {
 	 printf("No files in this directory");
 	 exit(0);
     }
-  
-   	int Max_FnLen=strlen(files[0]->d_name);
-   	for (i=1;i<count;i++) {
-		if(strlen(files[i]->d_name)>Max_FnLen) { 
-	  		Max_FnLen=strlen(files[i]->d_name);
-		}
-   	}
+    else {
+    	int Max_FnLen=strlen(files[0]->d_name);
+	   	for (i=0; i<count; i++) {
+			if(strlen(files[i]->d_name)>Max_FnLen) { 
+		  		Max_FnLen=strlen(files[i]->d_name);
+			}
+	   	}
 
-	for (i=1; i<count-1; i++) { 
-		 //check for directory files    
-		if(check(files[i-1]->d_name)==1) {
-			printf("%s%s",KBLU,BOLD);  
-		}
-		//check for executable files
-		else if(isExecutable(files[i-1]->d_name)==1) {
-		   printf("%s%s",KGRN,BOLD);
-		}    
-		//check for linked file
-		else if(check(files[i-1]->d_name)==2) {
-		   printf("%s%s",KCYN,BOLD);
-		}
-		//check for device file
-		else if(check(files[i-1]->d_name)==3) {
-		   printf("%s%s%s",KYEL,BOLD,BGBLACK);
-		} 
-		//check for graphic or image file
-		else if(check_ext(files[i-1]->d_name)==1) {
-		   printf("%s%s", KMAG, BOLD);
-		} 
-		//check for archive file
-		else if(check_ext(files[i-1]->d_name)==2) {
-		   printf("%s%s", KRED, BOLD);
-		} 
-		char *a;
-		asprintf(&a, "%%-%ds  ", Max_FnLen);
-		printf(a, files[i-1]->d_name);
-		free(a); 
-		printf("%s", KNRM);
-		if ((i % (180/Max_FnLen)) == 0) 
-			printf("\n");
-   }
+		for (i=1; i<count+1; i++) { 
+			 //check for directory files    
+			if(check(files[i-1]->d_name)==1) {
+				printf("%s%s",KBLU,BOLD);  
+			}
+			//check for executable files
+			else if(isExecutable(files[i-1]->d_name)==1) {
+			   printf("%s%s",KGRN,BOLD);
+			}    
+			//check for linked file
+			else if(check(files[i-1]->d_name)==2) {
+			   printf("%s%s",KCYN,BOLD);
+			}
+			//check for device file
+			else if(check(files[i-1]->d_name)==3) {
+			   printf("%s%s%s",KYEL,BOLD,BGBLACK);
+			} 
+			//check for graphic or image file
+			else if(check_ext(files[i-1]->d_name)==1) {
+			   printf("%s%s", KMAG, BOLD);
+			} 
+			//check for archive file
+			else if(check_ext(files[i-1]->d_name)==2) {
+			   printf("%s%s", KRED, BOLD);
+			} 
+			char *a;
+			asprintf(&a, "%%-%ds  ", Max_FnLen);
+			printf(a, files[i-1]->d_name);
+			free(a); 
+			printf("%s", KNRM);
+			if ((i % (180/Max_FnLen)) == 0) 
+				printf("\n");
+	   }
+   }	
 	printf("\n");    
 }
 
