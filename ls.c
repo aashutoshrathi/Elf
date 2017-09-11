@@ -132,8 +132,7 @@ int check(const char *name)
      return 0;
     }      
 }    
-
-//Needs some correction    
+   
 int check_ext(const char *name) {
   char *extension, *n;
   n=strdup(name);
