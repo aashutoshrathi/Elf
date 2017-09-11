@@ -50,8 +50,8 @@ main()   {
       
    for (i=1;i<count-1;i++)
    { 
-
-     //check for directory files    
+     if(files[i-1]->d_name[0]!='.')
+     { //check for directory files    
      if(check(files[i-1]->d_name)==1)
      {
        printf("%s%s",KBLU,BOLD);  
@@ -86,6 +86,7 @@ main()   {
      {
        printf("%s%s",KRED,BOLD);
      }
+     
       
      char *a;
      asprintf(&a,"%%-%ds  ",Max_FnLen);
@@ -94,6 +95,7 @@ main()   {
      printf("%s",KNRM);
      if ( (i % (180/Max_FnLen)) == 0) printf("\n");
    } 
+   }
    
  printf("\n");    
 }
