@@ -35,6 +35,7 @@ int remove_directory(char *r); // Declaration
 int pwd();
 int hasPrefix(char const *, char const *);
 
+//checks for prefix of a string
 int hasPrefix(char const *p, char const *q) {
 	int i = 0;
 	for(i = 0; q[i]; i++) {
@@ -50,30 +51,30 @@ int main() {
 	char *tok;
 	register struct passwd *pw ;
 	register uid_t uid;
-	uid = getuid();
-	pw = getpwuid(uid);
-	char *name = pw->pw_name;
-	tok = strtok (buffer, " ");
-	while(buffer != NULL){
-		bzero(buffer, BUFFERSIZE);
-		getcwd(prompt, sizeof(prompt));
-		printf(KGRN "");
-		printf("%s",name);
-		printf("@ubuntu:" KNRM);
-		printf(KBLU "-%s", prompt);
+	uid = getuid(); //gets the userid
+	pw = getpwuid(uid); //gets user for the particular userid
+	char *name = pw->pw_name; //get username for the user
+	tok = strtok (buffer, " "); //breaks the buffer on space and stores the string before space to tok
+	while(buffer != NULL){ 
+		bzero(buffer, BUFFERSIZE); //allocates memory buffersize to buffer
+		getcwd(prompt, sizeof(prompt)); //stores current working directory to prompt
+		printf(KGRN ""); //pencolor red
+		printf("%s",name); //prints username
+		printf("@ubuntu:" KNRM); 
+		printf(KBLU "-%s", prompt); 
 		printf(KNRM "" KNRM );
 		printf(BOLD "$ " KNRM);
-		fgets(buffer, BUFFERSIZE, stdin);
-		if (hasPrefix(buffer, "cd..") == 0) {
-			buffer[strlen(buffer)-1] = buffer[strlen(buffer)];
+		fgets(buffer, BUFFERSIZE, stdin); //stores the input to buffer (with spaces)
+		if (hasPrefix(buffer, "cd..") == 0) {   //if a string starts with "cd.." throw error
+			buffer[strlen(buffer)-1] = buffer[strlen(buffer)]; 
 			printf(KRED "%s: command not found\n", buffer);
 			printf(KNRM "" KNRM);
 		} 
-		else if (strcmp(buffer, "cd \n")==0 || strcmp(buffer, "cd\n")==0) {
+		else if (strcmp(buffer, "cd \n")==0 || strcmp(buffer, "cd\n")==0) { //if string is "cd__" go to home directory
 			cd("/home/");	
 		}
-		else if (hasPrefix(buffer, "cd") == 0) {
-			tok = strchr(buffer, ' '); //use something more powerful
+		else if (hasPrefix(buffer, "cd") == 0) { //if string has "cd" as prefix, change directory to address after it.
+, 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
 				tok = tempTok;
@@ -84,7 +85,7 @@ int main() {
 				cd(tok);
 			}
 		}
-		else if (hasPrefix(buffer, "rmdir") == 0) {
+		else if (hasPrefix(buffer, "rmdir") == 0) { // if buffer has prefix rmdir, deletes the arg file after it (if exist).
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
@@ -96,7 +97,7 @@ int main() {
 				remove_directory(tok);
 			}
 		}
-		else if (hasPrefix(buffer, "mkdir") == 0) {
+		else if (hasPrefix(buffer, "mkdir") == 0) { // if buffer has prefix mkdir, makes the arg file after it.
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
@@ -108,35 +109,36 @@ int main() {
 				make_dir(tok);
 			}
 		}
-		else if (hasPrefix(buffer, "pwd") == 0) {
+		else if (hasPrefix(buffer, "pwd") == 0) { //if buffer has prefix pwd, gives present working directory. 
 			pwd();
 		}
-		else if (hasPrefix(buffer, "cls") == 0) {
+		else if (hasPrefix(buffer, "cls") == 0) { //clears screen
 			int i=100;
 			while(i--)
 				printf("\n");
 		}
-		else if (hasPrefix(buffer, "ls -l") == 0) {
+		else if ((hasPrefix(buffer, "ls -l") == 0) || hasPrefix(buffer, "ls -color") == 0){
 			lsl();
 		}
-		else if (hasPrefix(buffer, "ls") == 0) {
+		else if ((hasPrefix(buffer, "ls") == 0) || hasPrefix(buffer, "ls --color") == 0){
 			ls();
 		}
-		else if (hasPrefix(buffer, "sudo apt-get") == 0) {
-			printf(KRED "Install karega haan\n");
+		else if (hasPrefix(buffer, "sudo apt-get") == 0) { //shows your knowledge 
+			printf(KRED "You do not have permissions to install\n"); // prints in laal rang
 			printf(KNRM "" KNRM);
 		}
-		else if (hasPrefix(buffer, "sudo") == 0) {
-			printf(KRED "Itne Bade nahi hue abhi\n");
+		else if (hasPrefix(buffer, "sudo") == 0) { 
+			printf(KRED "You do not have superuser access\n");
 			printf(KNRM "" KNRM);
 		}
-		else if (hasPrefix(buffer, "exit") == 0) {
+		else if (hasPrefix(buffer, "exit") == 0) { //exits the code
 			exit(0);
 		}
 		else {
-			buffer[strlen(buffer)-1] = buffer[strlen(buffer)];
-			printf(KRED "%s: command not found\n", buffer);
-			printf(KNRM "" KNRM);
+			buffer[strlen(buffer)-1] = buffer[strlen(buffer)]; 
+			// Since fgets stores string with a \n, so we changes second last character to last character, so that buffer can be used to show what command was entered
+			printf(KRED "%s: command not found\n", buffer); //shows error in laal rang
+			printf(KNRM "" KNRM); // changes color back to aam.
 		}
 	}
 	return 0;
