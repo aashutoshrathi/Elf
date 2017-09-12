@@ -14,7 +14,6 @@ int make_dir(char *pth){
 		strcat(cwd, "/");
 		strcat(cwd, path);
 	}
-
 	if(mkdir(cwd, S_IRWXU|S_IRWXG|S_IROTH|S_IXOTH)==-1) {
 		printf("Cannot create Directory,Given path is incorrect");
 	} else {

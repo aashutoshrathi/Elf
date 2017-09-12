@@ -45,14 +45,25 @@ int hasPrefix(char const *p, char const *q) {
 
 int main() {
 	char buffer[BUFFERSIZE];
-	char *prompt = "myshell$ ";
+	char cwd[1024];
+	//getcwd(cwd, sizeof(cwd));
+	//char *prompt = "myshell$";
 	char *tok;
 	tok = strtok (buffer, " ");
 	while(buffer != NULL){
 		bzero(buffer, BUFFERSIZE);
-		printf("%s", prompt);
+		getcwd(cwd, sizeof(cwd));
+		printf(KGRN "myshell:" KNRM);
+		printf(KBLU "-%s", cwd);
+		printf(KNRM "" KNRM );
+		printf(BOLD "$ " KNRM);
 		fgets(buffer, BUFFERSIZE, stdin);
-		if (hasPrefix(buffer, "cd") == 0) {
+		if (hasPrefix(buffer, "cd..") == 0) {
+			buffer[strlen(buffer)-1] = buffer[strlen(buffer)];
+			printf("%s: command not found\n", buffer);
+			printf(KNRM "" KNRM);
+		} 
+		else if (hasPrefix(buffer, "cd") == 0) {
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
@@ -63,7 +74,8 @@ int main() {
 				}
 				cd(tok);
 			}
-		} else if (hasPrefix(buffer, "rmdir") == 0) {
+		}
+		else if (hasPrefix(buffer, "rmdir") == 0) {
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
@@ -74,7 +86,8 @@ int main() {
 				}
 				remove_directory(tok);
 			}
-		} else if (hasPrefix(buffer, "mkdir") == 0) {
+		}
+		else if (hasPrefix(buffer, "mkdir") == 0) {
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
@@ -86,36 +99,32 @@ int main() {
 				make_dir(tok);
 			}
 		}
-
 		else if (hasPrefix(buffer, "pwd") == 0) {
 			pwd();
 		}
-
 		else if (hasPrefix(buffer, "cls") == 0) {
 			int i=100;
 			while(i--)
 				printf("\n");
 		}
-
 		else if (hasPrefix(buffer, "ls") == 0) {
 			ls();
 		}
-
 		else if (hasPrefix(buffer, "sudo apt-get") == 0) {
-			printf("Install karega haan\n");
+			printf(KRED "Install karega haan\n");
+			printf(KNRM "" KNRM);
 		}
-
 		else if (hasPrefix(buffer, "sudo") == 0) {
-			printf("Itne Bade nahi hue abhi\n");
+			printf(KRED "Itne Bade nahi hue abhi\n");
+			printf(KNRM "" KNRM);
 		}
-
 		else if (hasPrefix(buffer, "exit") == 0) {
 			exit(0);
 		}
-		else 
-		{
+		else {
 			buffer[strlen(buffer)-1] = buffer[strlen(buffer)];
-			printf("%s: Commnd not found\n", buffer);
+			printf(KRED "%s: command not found\n", buffer);
+			printf(KNRM "" KNRM);
 		}
 	}
 	return 0;
