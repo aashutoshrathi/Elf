@@ -1,3 +1,4 @@
+#define _GNU_SOURCE // to avoid "implicit declaration of function `asprintf'"
 int remove_directory(char *path) {
 	DIR *d = opendir(path);
 	size_t path_len = strlen(path);
