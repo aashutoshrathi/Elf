@@ -8,11 +8,6 @@ int remove_directory(char *path) {
 	if (getcwd(pathname, sizeof(pathname)) == 0 ) {
 	  printf("Error getting pathname");
 	}
-  	count = scandir(pathname, &files, file_select, alphasort);
-  	if (count > 0) {    
-		printf("rmdir: failed to remove '%s': Directory not empty\n",path);
-		return 0;
-    }
 	if (d) {
 		const struct dirent *p;
 		r = 0;

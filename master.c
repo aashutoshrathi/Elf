@@ -16,6 +16,7 @@
 #include "pwd.h"
 #include "remove_dir.h"
 #include "cd.h"
+#include "ls-l.h"
 	
 #define FALSE 0
 #define TRUE 1
@@ -107,6 +108,9 @@ int main() {
 			int i=100;
 			while(i--)
 				printf("\n");
+		}
+		else if (hasPrefix(buffer, "ls -l") == 0) {
+			lsl();
 		}
 		else if (hasPrefix(buffer, "ls") == 0) {
 			ls();
