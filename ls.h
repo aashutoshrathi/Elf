@@ -1,3 +1,4 @@
+#define _GNU_SOURCE // to avoid "implicit declaration of function `asprintf'"
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/param.h>
@@ -26,7 +27,7 @@ int file_select(struct direct *entry) {
 	return !((strcmp(entry->d_name, ".") == 0) ||(strcmp(entry->d_name, "..") == 0));
 }
 
-int isExecutable(const char *name) {
+int isExecutable(const char *name) { //checks if is executable by user or not
 	struct stat sb;
 	return (stat(name, &sb) == 0 && sb.st_mode & S_IXUSR);
 }
@@ -72,7 +73,7 @@ int ls() {
 	if (getcwd(pathname, sizeof(pathname)) == 0 ) {
 	  printf("Error getting pathname");
 	}
- 	count = scandir(pathname, &files, file_select, alphasort);
+ 	count = scandir(pathname, &files, file_select, alphasort); //stores the count of the number of files and sort them
   	if (count <= 0) {         
 	 printf("No files in this directory");
     }
@@ -80,7 +81,7 @@ int ls() {
     	int Max_FnLen=strlen(files[0]->d_name);
 	   	for (i=0; i<count; i++) {
 			if(strlen(files[i]->d_name)>Max_FnLen) { 
-		  		Max_FnLen=strlen(files[i]->d_name);
+		  		Max_FnLen=strlen(files[i]->d_name); //stores the maximum name length
 			}
 	   	}
 		for (i=1; i<count+1; i++) { 
