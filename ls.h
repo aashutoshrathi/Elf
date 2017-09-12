@@ -1,3 +1,4 @@
+#define _GNU_SOURCE // to avoid "implicit declaration of function `asprintf'"
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/param.h>
