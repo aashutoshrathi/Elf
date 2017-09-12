@@ -1,3 +1,4 @@
+#define _GNU_SOURCE // to avoid "implicit declaration of function `asprintf'"
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/param.h>
@@ -29,59 +30,46 @@ extern  int alphasort();
 char pathname[MAXPATHLEN];
 void lsl()  
  {
-	int count,i,j,k=0;
+  int count,i,j,k=0;
 	struct dirent **files;
 	struct stat fileStat;
 	int file_selectl();
 	
-		if (getcwd(pathname, sizeof(pathname)) == 0 )
-		{
-		    printf("Error getting path\n");
-		}
+	if (getcwd(pathname, sizeof(pathname)) == 0 ) {
+    printf("Error getting path\n");
+	}
 		
-		//for getting parent directory name
+	//for getting parent directory name
 	char *user;
 	struct passwd *p;
-    	while((p = getpwent())) 
-    	{
-    		user=p->pw_name;
-    	}
-    
-	printf("user -%s\n",user);
+  while((p = getpwent())) {
+    user=p->pw_name;
+  }
+  printf("user -%s\n",user);
 	count = scandir(pathname, &files, file_selectl, alphasort);
-	
-		if (count <= 0)	
-		{          
-				printf("No files in this directory\n");
-		}
-
-		//for ls -l(parent directory and creation time not added) moe like ls -g
-		for (i=1;i<count-1;i++)
-			{
-			  if(files[i-1]->d_name[0]!='.')
- 				{
- 				 stat(files[i-1]->d_name, &fileStat);
-   				 printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
-   				 printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
-   				 printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
-    			 printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
-    			 printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
-    			 printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
-    			 printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
-    			 printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
-    			 printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
-    			 printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");
-    			
-    			
- 				//struct timespec x=fileStat.birthtime(st);
- 				//printf("\t%i\t", x);
- 				//printf("\tlength is %d  \t",files[i-1]->d_reclen);
- 				//prints Owner
- 				printf("\t%s", user);
- 				//prints file size
- 				int length=files[i-1]->d_reclen/32;
- 				if(files[i-1]->d_reclen<32 )
- 				 printf("\t%d  \t",length+1);
+	if (count <= 0)	{
+    printf("No files in this directory\n");
+	}
+  //for ls -l(parent directory and creation time not added) moe like ls -g
+	for (i=1;i<count-1;i++) {
+		if(files[i-1]->d_name[0]!='.') {
+      stat(files[i-1]->d_name, &fileStat);
+   	  printf( (S_ISDIR(fileStat.st_mode)) ? "d" : "-");
+      printf( (fileStat.st_mode & S_IRUSR) ? "r" : "-");
+   	  printf( (fileStat.st_mode & S_IWUSR) ? "w" : "-");
+      printf( (fileStat.st_mode & S_IXUSR) ? "x" : "-");
+      printf( (fileStat.st_mode & S_IRGRP) ? "r" : "-");
+      printf( (fileStat.st_mode & S_IWGRP) ? "w" : "-");
+      printf( (fileStat.st_mode & S_IXGRP) ? "x" : "-");
+      printf( (fileStat.st_mode & S_IROTH) ? "r" : "-");
+      printf( (fileStat.st_mode & S_IWOTH) ? "w" : "-");
+      printf( (fileStat.st_mode & S_IXOTH) ? "x" : "-");
+ 			//prints Owner
+ 			printf("\t%s", user);
+ 			//prints file size
+ 			int length=files[i-1]->d_reclen/32;
+ 			if(files[i-1]->d_reclen<32 )
+ 			  printf("\t%d  \t",length+1);
  				else if(files[i-1]->d_reclen>32)
  				 printf("\t%d  \t",length+1);
  				else

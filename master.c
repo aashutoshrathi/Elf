@@ -48,11 +48,18 @@ int main() {
 	char buffer[BUFFERSIZE];
 	char prompt[1024];
 	char *tok;
+	register struct passwd *pw ;
+	register uid_t uid;
+	uid = getuid();
+	pw = getpwuid(uid);
+	char *name = pw->pw_name;
 	tok = strtok (buffer, " ");
 	while(buffer != NULL){
 		bzero(buffer, BUFFERSIZE);
 		getcwd(prompt, sizeof(prompt));
-		printf(KGRN "myshell:" KNRM);
+		printf(KGRN "");
+		printf("%s",name);
+		printf("@ubuntu:" KNRM);
 		printf(KBLU "-%s", prompt);
 		printf(KNRM "" KNRM );
 		printf(BOLD "$ " KNRM);
