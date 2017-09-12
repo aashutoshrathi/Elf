@@ -73,8 +73,7 @@ int main() {
 		else if (strcmp(buffer, "cd \n")==0 || strcmp(buffer, "cd\n")==0) { //if string is "cd__" go to home directory
 			cd("/home/");	
 		}
-		else if (hasPrefix(buffer, "cd") == 0) { //if string has "cd" as prefix, change directory to address after it.
-, 			tok = strchr(buffer, ' '); //use something more powerful
+		else if (hasPrefix(buffer, "cd") == 0) { //if string has "cd" as prefix, change directory to address after it. 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
 				char *tempTok = tok + 1;
 				tok = tempTok;

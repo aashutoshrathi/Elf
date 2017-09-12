@@ -112,7 +112,7 @@ void lsl() {
 
 
 int file_selectl(struct direct *entry) { //
-	return !((strcmp(entry->d_name, ".") == 0) ||(strcmp(entry->d_name, "..")==0)) // ignores the file with name . and ..
+	return !((strcmp(entry->d_name, ".") == 0) ||(strcmp(entry->d_name, "..")==0)); // ignores the file with name . and ..
 }
 int isExecutablel(const char *name) {
 	struct stat sb; 
