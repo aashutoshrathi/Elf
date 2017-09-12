@@ -45,24 +45,25 @@ int hasPrefix(char const *p, char const *q) {
 
 int main() {
 	char buffer[BUFFERSIZE];
-	char cwd[1024];
-	//getcwd(cwd, sizeof(cwd));
-	//char *prompt = "myshell$";
+	char prompt[1024];
 	char *tok;
 	tok = strtok (buffer, " ");
 	while(buffer != NULL){
 		bzero(buffer, BUFFERSIZE);
-		getcwd(cwd, sizeof(cwd));
+		getcwd(prompt, sizeof(prompt));
 		printf(KGRN "myshell:" KNRM);
-		printf(KBLU "-%s", cwd);
+		printf(KBLU "-%s", prompt);
 		printf(KNRM "" KNRM );
 		printf(BOLD "$ " KNRM);
 		fgets(buffer, BUFFERSIZE, stdin);
 		if (hasPrefix(buffer, "cd..") == 0) {
 			buffer[strlen(buffer)-1] = buffer[strlen(buffer)];
-			printf("%s: command not found\n", buffer);
+			printf(KRED "%s: command not found\n", buffer);
 			printf(KNRM "" KNRM);
 		} 
+		else if (strcmp(buffer, "cd \n")==0 || strcmp(buffer, "cd\n")==0) {
+			cd("/home/");	
+		}
 		else if (hasPrefix(buffer, "cd") == 0) {
 			tok = strchr(buffer, ' '); //use something more powerful
 			if (tok) {
